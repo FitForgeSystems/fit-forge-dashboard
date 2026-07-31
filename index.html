@@ -23,7 +23,6 @@
         body {
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background-color: var(--bg-dark);
-            /* Dynamic background gradient glow */
             background-image: 
                 radial-gradient(circle at 15% 15%, rgba(249, 115, 22, 0.08) 0%, transparent 40%),
                 radial-gradient(circle at 85% 85%, rgba(37, 99, 235, 0.06) 0%, transparent 40%);
@@ -47,8 +46,8 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--border-color);
             position: relative;
             overflow: hidden;
+            text-align: center; /* Centers all inner text elements */
         }
-        /* Top subtle glow line on card */
         .container::before {
             content: '';
             position: absolute;
@@ -91,7 +90,7 @@
         }
         .form-group {
             margin-bottom: 20px;
-            text-align: left;
+            text-align: left; /* Keeps form labels/inputs neatly aligned */
         }
         label {
             display: block;
