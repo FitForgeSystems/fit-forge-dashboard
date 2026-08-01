@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
+    <!-- Supabase JavaScript Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <style>
         :root {
             --bg-dark: #07090e;
@@ -46,7 +49,7 @@
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 0 1px var(--border-color);
             position: relative;
             overflow: hidden;
-            text-align: center; /* Centers all inner text elements */
+            text-align: center;
         }
         .container::before {
             content: '';
@@ -90,7 +93,7 @@
         }
         .form-group {
             margin-bottom: 20px;
-            text-align: left; /* Keeps form labels/inputs neatly aligned */
+            text-align: left;
         }
         label {
             display: block;
@@ -139,6 +142,12 @@
             transform: translateY(-1px);
             box-shadow: 0 6px 20px rgba(249, 115, 22, 0.6);
         }
+        #error-message {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 15px;
+            display: none;
+        }
         .footer-note {
             margin-top: 30px;
             font-size: 11px;
@@ -164,7 +173,8 @@
                 <label for="password">Password</label>
                 <input type="password" id="password" required placeholder="••••••••">
             </div>
-            <button type="submit">Sign In to Dashboard</button>
+            <button type="submit" id="submitBtn">Sign In to Dashboard</button>
+            <div id="error-message"></div>
         </form>
 
         <div class="footer-note">
@@ -173,10 +183,40 @@
     </div>
 
     <script>
-        function handleLogin(event) {
+        // REPLACE THESE TWO STRINGS WITH YOUR SUPABASE CREDENTIALS FROM SETTINGS > API
+        const SUPABASE_URL = 'YOUR_SUPABASE_URL_HERE';
+        const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY_HERE';
+
+        // Initialize Supabase client
+        const { createClient } = supabase;
+        const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function handleLogin(event) {
             event.preventDefault();
             const email = document.getElementById('email').value;
-            alert('Supabase authentication hook will connect here for: ' + email);
+            const password = document.getElementById('password').value;
+            const errorDiv = document.getElementById('error-message');
+            const btn = document.getElementById('submitBtn');
+
+            errorDiv.style.display = 'none';
+            btn.textContent = 'Authenticating...';
+            btn.disabled = true;
+
+            // Call Supabase Authentication API
+            const { data, error } = await _supabase.auth.signInWithPassword({
+                email: email,
+                password: password,
+            });
+
+            if (error) {
+                errorDiv.textContent = error.message;
+                errorDiv.style.display = 'block';
+                btn.textContent = 'Sign In to Dashboard';
+                btn.disabled = false;
+            } else {
+                alert('Success! Logged in as: ' + data.user.email);
+                // Here is where we will eventually redirect to your main dashboard view!
+            }
         }
     </script>
 </body>
