@@ -8,9 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Supabase JavaScript Client Library -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <style>
         :root {
@@ -182,14 +179,17 @@
         </div>
     </div>
 
-    <script>
+    <!-- Import Supabase using modern ESM module layout -->
+    <script type="module">
+        import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
         const SUPABASE_URL = "https://vogjlzhcaglgyssbpyh.supabase.co";
         const SUPABASE_ANON_KEY = "sb_publishable_eqQBMPOINPhxudVxqhoT9A_EauSQg5g";
 
-        const { createClient } = supabase;
         const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        async function handleLogin(event) {
+        // Attach handleLogin to window so the HTML form can see it inside the module scope
+        window.handleLogin = async function(event) {
             event.preventDefault();
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
@@ -213,7 +213,7 @@
             } else {
                 alert('Success! Logged in as: ' + data.user.email);
             }
-        }
+        };
     </script>
 </body>
 </html>
