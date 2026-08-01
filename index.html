@@ -183,11 +183,9 @@
     </div>
 
     <script>
-        // Configured with your Supabase Credentials
-        const SUPABASE_URL = 'https://vogjlzhcaglgyssbpyh.supabase.co';
-        const SUPABASE_ANON_KEY = 'sb_publishable_eqQBMPOINPhxudVxqhoT9A_EauSQg5g';
+        const SUPABASE_URL = "https://vogjlzhcaglgyssbpyh.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_eqQBMPOINPhxudVxqhoT9A_EauSQg5g";
 
-        // Initialize Supabase client
         const { createClient } = supabase;
         const _supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -202,7 +200,6 @@
             btn.textContent = 'Authenticating...';
             btn.disabled = true;
 
-            // Call Supabase Authentication API
             const { data, error } = await _supabase.auth.signInWithPassword({
                 email: email,
                 password: password,
@@ -215,7 +212,6 @@
                 btn.disabled = false;
             } else {
                 alert('Success! Logged in as: ' + data.user.email);
-                // Here is where we will eventually redirect to your main dashboard view!
             }
         }
     </script>
